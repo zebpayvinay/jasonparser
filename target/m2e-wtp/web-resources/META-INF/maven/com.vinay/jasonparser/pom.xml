@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.vinay</groupId>
+  <artifactId>jasonparser</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>jasonparser Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+   
+    <dependency>
+  <groupId>org.testng</groupId>
+  <artifactId>testng</artifactId>
+  <version>6.8</version>
+  <scope>test</scope>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
+<!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib-ext-spring -->
+<dependency>
+    <groupId>net.sf.json-lib</groupId>
+    <artifactId>json-lib-ext-spring</artifactId>
+    <version>1.0.2</version>
+</dependency>
+
+<dependency>
+  <groupId>net.sf.json-lib</groupId>
+  <artifactId>json-lib</artifactId>
+  <version>2.2.3</version>
+  <classifier>jdk15</classifier>
+</dependency>
+
+    
+  </dependencies>
+  
+  <build>
+    <finalName>jasonparser</finalName>
+    <plugins>
+    <plugin>
+                                                                                                <groupId>io.fabric8</groupId>
+               <artifactId>docker-maven-plugin</artifactId>
+<version>0.15.7</version>
+       <configuration>
+                   <!-- <dockerHost>http://192.168.99.100:2375</dockerHost> -->
+        <!--<certPath>src/main/dockerCerts</certPath>-->
+     <images>
+                                                                                                                                <image>
+                                                                                                                                <alias>${project.artifactId}</alias>
+ <name>${docker.repository.name}</name>
+                                                                                                                            <build>
+                                                                                                                             <tags>
+                                                                                                                            <tag>${project.version}</tag>
+                                                                                                                             <tag>latest</tag>
+                                                                                                                                    </tags>
+                                                                                                                                  <assembly>
+                                                                                                                              <descriptor>docker-assembly.xml</descriptor>
+  <basedir>/usr/local/tomcat/webapps</basedir>
+                                                                                                                              </assembly>
+                                                                                                                               <dockerFileDir>file/</dockerFileDir>
+                                                                                                                                    </build>
+                                                                                                                                </image>
+    </images>
+     </configuration>
+    <executions>
+    <execution>
+                                                                                                                                <id>start</id>
+                                                                                                                                <phase>pre-integration-test</phase>
+                                                                                                                                <goals>
+                                                                                                                                <goal>build</goal>
+                                                                                                                                </goals>
+                                                                                                                </execution>
+ <execution>
+                                                                                                                                <id>push-to-docker-registry</id>
+                                                                                                                                <phase>deploy</phase>
+                                                                                                                                <goals>
+                                                                                                                                <goal>push</goal>
+                                                                                                                                </goals>
+                                                                                                                 </execution>
+ </executions>
+ </plugin>
+    
+    </plugins>
+  </build>
+</project>
